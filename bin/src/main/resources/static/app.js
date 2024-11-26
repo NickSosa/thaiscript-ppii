@@ -5,7 +5,10 @@ document.addEventListener('DOMContentLoaded',e =>{
 let data1
 const fetchData = async () =>{
     try {
-        const resp = await fetch("comidas.json");
+		 const resp = await fetch("/api/comidas");
+
+        
+        //const resp = await fetch("comidas.json");
         const data = await resp.json();
         
         pintar(data)
@@ -82,7 +85,7 @@ const pintar = data =>{
         template.querySelector("span").textContent = element.precio;
         template.querySelector("button").dataset.id = element.id;
 
-        template.querySelector(".parra").textContent = element.decripcion;
+        template.querySelector(".parra").textContent = element.descripcion;
         template.querySelector(".ingr").textContent = element.ingredientes;
 
         template.querySelector(".colbu").setAttribute("data-bs-target",element.target);
@@ -147,7 +150,7 @@ const pintarSele = data1 =>{
                 template.querySelector("span").textContent = element.precio;
                 template.querySelector("button").dataset.id = element.id;
         
-                template.querySelector(".parra").textContent = element.decripcion;
+                template.querySelector(".parra").textContent = element.descripcion;
                 template.querySelector(".ingr").textContent = element.ingredientes;
         
                 template.querySelector(".colbu").setAttribute("data-bs-target",element.target);
@@ -168,7 +171,7 @@ const pintarSele = data1 =>{
                 template.querySelector("span").textContent = element.precio;
                 template.querySelector("button").dataset.id = element.id;
         
-                template.querySelector(".parra").textContent = element.decripcion;
+                template.querySelector(".parra").textContent = element.descripcion;
                 template.querySelector(".ingr").textContent = element.ingredientes;
         
                 template.querySelector(".colbu").setAttribute("data-bs-target",element.target);
@@ -305,6 +308,65 @@ const mensajeFooter = () =>{
         pintarCarrito()
     })
 
+//////////////Mostrar carrito//////////////
+
+const mostCarro = document.querySelector(".botCarrito")
+const vistaCarro = document.querySelector(".carrito")
+mostCarro.addEventListener("click",()=>{
+    vistaCarro.style.display = "flex"
+})
+
+/////////////////Cerrar carrito///////////////////
+
+const butCerrar = document.querySelector(".butonCerrar")
+
+butCerrar.addEventListener("click",()=>{
+    vistaCarro.style.display = "none"
+})
+
+
+    //Enviar la compra a spring
+    const comprarBtn = document.querySelector("#comprar-btn");
+    comprarBtn.addEventListener("click", async () => {
+    try {
+		console.log(arrayProducto);
+        const compra = {
+            clienteId: 123, 
+            fechaCompra: new Date().toISOString(),
+            detalles: Object.values(arrayProducto).map(producto => ({
+                //productoId: producto.id,
+                comida: { id: producto.id }, 
+                cantidad: producto.cantidad,
+                precio: producto.precio
+            }))
+        };
+
+        const response = await fetch("/api/compras", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(compra)
+        });
+
+        if (response.ok) {
+            alert("Compra realizada con éxito");
+            arrayProducto = {}; // Vaciar el carrito después de la compra
+            pintarCarrito();
+            sumCont(); //reiniciar el contador carrito
+            vistaCarro.style.display = "none";
+        } else {
+            alert("Error al realizar la compra");
+        }
+    } catch (error) {
+        console.error("Error al realizar la compra:", error);
+        alert("Hubo un problema al procesar la compra");
+    }
+});
+
+
+
+
 }
 
 
@@ -349,22 +411,6 @@ const botMas = () =>{
 }
 
 
-//////////////Mostrar carrito//////////////
-
-const mostCarro = document.querySelector(".botCarrito")
-const vistaCarro = document.querySelector(".carrito")
-mostCarro.addEventListener("click",()=>{
-    vistaCarro.style.display = "flex"
-})
-
-/////////////////Cerrar carrito///////////////////
-
-const butCerrar = document.querySelector(".butonCerrar")
-
-butCerrar.addEventListener("click",()=>{
-    vistaCarro.style.display = "none"
-})
-
 
 const contador = document.querySelector("#contador")
 
@@ -378,3 +424,11 @@ const sumCont = () =>{
     
 }
 
+
+
+//històricos
+
+document.querySelector("#historicos-btn").addEventListener("click", () => {
+	//console.log("aca historicos")
+    window.location.href = "historicos.html";
+});

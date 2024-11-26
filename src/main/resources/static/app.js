@@ -309,11 +309,19 @@ const mensajeFooter = () =>{
     })
 
 //////////////Mostrar carrito//////////////
-
 const mostCarro = document.querySelector(".botCarrito")
 const vistaCarro = document.querySelector(".carrito")
+var carritoVisible = false
 mostCarro.addEventListener("click",()=>{
-    vistaCarro.style.display = "flex"
+	if (carritoVisible == false) {
+		vistaCarro.style.display = "flex"
+		carritoVisible = true
+	}
+	else {
+		vistaCarro.style.display = "none"
+		carritoVisible = false
+	}
+    
 })
 
 /////////////////Cerrar carrito///////////////////
@@ -322,6 +330,7 @@ const butCerrar = document.querySelector(".butonCerrar")
 
 butCerrar.addEventListener("click",()=>{
     vistaCarro.style.display = "none"
+    carritoVisible = false
 })
 
 
@@ -331,7 +340,7 @@ butCerrar.addEventListener("click",()=>{
     try {
 		console.log(arrayProducto);
         const compra = {
-            clienteId: 123, 
+            /*cliente: 123,*/ 
             fechaCompra: new Date().toISOString(),
             detalles: Object.values(arrayProducto).map(producto => ({
                 //productoId: producto.id,

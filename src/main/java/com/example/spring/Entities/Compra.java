@@ -15,8 +15,9 @@ public class Compra {
     @Column(name = "idcompra")
     private Long id;
 
-    @Column(name = "cliente_id", nullable = false)
-    private Long clienteId;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "fkcliente")
+    private Cliente cliente;
 
     @Column(name = "fecha_compra", nullable = false)
     private LocalDateTime fechaCompra;
@@ -24,7 +25,15 @@ public class Compra {
   
     
 
-    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
+    public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	@OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<DetalleCompra> detalles;
     // Getters y Setters
@@ -35,14 +44,7 @@ public class Compra {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Long getClienteId() {
-        return clienteId;
-    }
-
-    public void setClienteId(Long clienteId) {
-        this.clienteId = clienteId;
-    }
+    
 
     public LocalDateTime getFechaCompra() {
         return fechaCompra;
@@ -59,4 +61,6 @@ public class Compra {
     public void setDetalles(List<DetalleCompra> detalles) {
         this.detalles = detalles;
     }
+    
+    
 }

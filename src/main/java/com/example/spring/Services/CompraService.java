@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.spring.Entities.Comida;
 import com.example.spring.Entities.Compra;
+import com.example.spring.Entities.Cliente;
 import com.example.spring.Entities.DetalleCompra;
 import com.example.spring.Repositories.ComidaRepository;
 import com.example.spring.Repositories.CompraRepository;
@@ -37,6 +38,10 @@ public class CompraService {
 
     public Compra guardarCompra(Compra compra) {
         // Primero, guarda la compra para obtener el ID
+    	Cliente cliente = new Cliente();
+    	cliente.setIdCliente(1L);
+    	compra.setCliente(cliente);
+    	
         Compra nuevaCompra = compraRepository.save(compra);
 
         // Luego, maneja los detalles de la compra
@@ -55,8 +60,8 @@ public class CompraService {
     }
     
     ///////
-    public List<Compra> obtenerComprasPorCliente(Long clienteId) {
-    return compraRepository.findByClienteId(clienteId);
+    public List<Compra> obtenerComprasPorCliente(Cliente cliente) {
+    return compraRepository.findByCliente(cliente);
 }
 
 }

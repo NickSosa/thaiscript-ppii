@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.spring.Entities.Cliente;
 import com.example.spring.Entities.Compra;
 import com.example.spring.Services.CompraService;
 
@@ -29,8 +31,10 @@ public class CompraController {
 
     @GetMapping("/cliente/{clienteId}")
     public ResponseEntity<List> obtenerComprasPorCliente(@PathVariable Long clienteId) {
-    List compras = compraService.obtenerComprasPorCliente(clienteId);
-    return new ResponseEntity<>(compras, HttpStatus.OK);
+    	Cliente cliente = new Cliente();
+    	cliente.setIdCliente(clienteId);
+    	List compras = compraService.obtenerComprasPorCliente(cliente);
+    	return new ResponseEntity<>(compras, HttpStatus.OK);
     }
 
 

@@ -5,8 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
+
+@Table(name="comida")
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Comida {
 
     @Id
@@ -37,8 +51,21 @@ public class Comida {
 
     @Column(name = "ingredientes", length = 255)
     private String ingredientes;
-
-
+    
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+    		name="comida_categoria",
+    		joinColumns= @JoinColumn(name= "comida_id"),
+    		inverseJoinColumns = @JoinColumn(name= "categoria_id"))
+    private List<Categoria> categorias = new ArrayList<Categoria>();
+    
+    
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+    		name="comida_carrito",
+    		joinColumns= @JoinColumn(name= "comida_id"),
+    		inverseJoinColumns = @JoinColumn(name= "carrito_id"))
+    private List<Carrito> carritos = new ArrayList<Carrito>();
 
     // Getters y Setters
     public Long getId() {

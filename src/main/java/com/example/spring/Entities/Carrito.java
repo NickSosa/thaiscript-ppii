@@ -21,25 +21,21 @@ public class Carrito implements Serializable{
     @Column(name = "idcarrito")
     private Long idCarrito;
 
-    @Column(name = "idcliente") //usuario
-    private Long idCliente;
-
-    //hardcarrito onetomany
-    @OneToMany( cascade = CascadeType.PERSIST)//mappedBy="carrito" . Hace falta agragar un atributo carritoen DatallePedido, bidireccional
-    private List<DetallePedido> detalle = new ArrayList<DetallePedido>();
-
     @Column(name = "idproducto") //producto
     private Long idProducto;
 
     @Column(name="fecha", length = 45)
     private String fecha;
 
-    @Column(name = "cantidad", length = 45)
-    private String cantidad;
-
-    @Column(name = "precio", length = 45)
-    private String precio;
-
     @Column(name = "subtotal", length = 45)
     private String subtotal;
+    
+  //Relación OneToOne con Cliente
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_cliente")
+    private Cliente cliente;
+    
+    
+    @ManyToMany(mappedBy = "carritos")
+    private List <Comida> comidas = new ArrayList<Comida>();
 }

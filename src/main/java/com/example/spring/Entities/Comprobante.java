@@ -16,15 +16,13 @@ public class Comprobante {
     @Column(name = "idcomprobante")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idComprobante;
-
-    // @Column(name = "idpedido")
-    // private Long idPedido;
-
-    @Column(name = "detalleproductos")
-    private String detalleProductos;
+    
     @Column(name = "informaciondefacturacion")
     private String informacionFacturacion;
     
+  //Relación OneToOne con Compra
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_compra")
+    private Compra compra;
     
-
 }

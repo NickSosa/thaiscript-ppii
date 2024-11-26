@@ -34,13 +34,52 @@ public class Cliente implements Serializable{
     @Column(name = "FechadeRegistro", length = 45)
     private String fechaRegistro;
 
-    //Relación OneToOne con HistorialPedidos
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_historialPedidos")
-    private HistorialPedidos historialPedidos;
+	public Long getIdCliente() {
+		return idCliente;
+	}
 
-    //No sé si la relación debe ser bidireccional o si se volverá ManyToOne, así que comento -Nick
-    //Relación Bidireccional OneToOne con Pedido
-    //@OneToOne(mappedBy = "cliente")
-    //private Pedido pedido;
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getContrasenia() {
+		return contrasenia;
+	}
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	public String getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(String fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
 }

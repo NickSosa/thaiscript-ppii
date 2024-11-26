@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const clienteId = 1; // Reemplaza con el ID real del cliente
+        const clienteId = 123; // Reemplaza con el ID real del cliente
         const response = await fetch(`/api/compras/cliente/${clienteId}`);
         
         if (response.ok) {
